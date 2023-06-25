@@ -2,26 +2,38 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
 
-## Development server
+Quick Start
+npm install ngx-pagination --save
+Angular Version
+This library is built to work with Angular 13+. If you need to support an earlier version of Angular, please use v5.x.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Simple Example
+// app.module.ts
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import {MyComponent} from './my.component';
 
-## Code scaffolding
+@NgModule({
+    imports: [BrowserModule, NgxPaginationModule], // <-- include it in your app module
+    declarations: [MyComponent],
+    bootstrap: [MyComponent]
+})
+export class MyAppModule {}
+// my.component.ts
+import {Component} from '@angular/core';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+@Component({
+    selector: 'my-component',
+    template: `
+    <ul>
+      <li *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> ... </li>
+    </ul>
+               
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    `
+})
+export class MyComponent {
+    p: number = 1;
+    collection: any[] = someArrayOfThings;  
+}
